@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pregunta Especial</title>
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes buttonBounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-image: url("https://img.freepik.com/vector-gratis/patron-bonito-corazones-blancos-fondo-pizarra_23-2147590611.jpg?size=626&ext=jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: white;
+        animation: fadeIn 2s ease-in;
+      }
+      h1 {
+        font-size: 6em; /* Doble del tamaño original */
+        text-align: center;
+        margin-bottom: 50px;
+        animation: fadeIn 2s ease-in;
+        text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
+          2px 2px 0 #000; /* Agregar borde negro */
+      }
+      button {
+        padding: 15px 30px;
+        font-size: 1.2em;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+        animation: buttonBounce 2s infinite;
+      }
+      .yes-button {
+        background-color: #28a745;
+        color: white;
+      }
+      .yes-button:hover {
+        background-color: #218838;
+      }
+      .no-button {
+        background-color: #dc3545;
+        color: white;
+      }
+      .no-button:hover {
+        background-color: #c82333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 id="question">¿Me amas?</h1>
+    <div class="buttons" id="buttons">
+      <button class="yes-button" id="yesButton" onclick="yesAnswer()">
+        Sí amor
+      </button>
+      <button class="no-button" id="noButton" onclick="noAnswer()">No</button>
+    </div>
+
+    <audio id="background-music" loop>
+      <source src="./audio.mp3" type="audio/mpeg" />
+    </audio>
+
+    <audio id="win" loop>
+      <source src="./musicParche/win.mp3" type="audio/mpeg" />
+    </audio>
+
+    <audio id="fail" loop>
+        <source src="./musicParche/fail.mp3" type="audio/mpeg" />
+    </audio>
+
+    <script>
+        let yesBtn = document.getElementById("yesButton")
+        let failBtn = document.getElementById("noButton")
+
+
+      const phrases = [
+        "Ay amor, como que no?",
+        "Amor siii😭",
+        "Presionameeee",
+        "Presiona aquí o lloro",
+        "Ok, lloro",
+        "Ya dime que sí",
+        "Si y te ganas un premio",
+        "Ahh no quieres el premio, ok",
+        "Sí",
+        "Si mi amoooor",
+      ];
+    
+
+
+      let phraseIndex = 0;
+
+      function playMusic() {
+        var music = document.getElementById("background-music");
+        music.play().catch(function (error) {
+          console.log("Error al reproducir la música: " + error);
+        });
+      }
+
+      window.onload = () => {
+        playMusic();
+      };
+
+      function winplayerMusic() {
+        var winplayer = document.getElementById("win");
+        winplayer.play();
+      }
+
+      function failPlayerMusic() {
+        var failPlayer = document.getElementById("fail");
+        failPlayer.loop = false
+        failPlayer.play();
+      }
+
+      yesBtn.addEventListener("click",()=>{winplayerMusic()})
+      failBtn.addEventListener("click",()=>{failPlayerMusic()})
+      
+
+      
+
+      function yesAnswer() {
+        // Ocultar la pregunta y los botones
+        document.getElementById("question").style.display = "none";
+        document.getElementById("buttons").style.display = "none";
+
+        // Mostrar el texto y el gif
+        document.body.innerHTML += `
+                <div style="text-align: center;">
+                    <h1 style="color:white;">YO TE AMO MÁS MI NIÑA DE OJITOS BONITOS</h1>
+                    <img src="https://i.pinimg.com/originals/17/e1/39/17e13977ee118b9e920b24326a49f1d6.gif" alt="Te amo" style="max-width: 100%; height: auto;">
+                </div>
+                <audio id="win" loop>
+                    <source src="./musicParche/win.mp3" type="audio/mpeg" />
+                </audio>
+            `;
+      }
+
+      function noAnswer() {
+        let yesButton = document.getElementById("yesButton");
+
+        // Aumentar tamaño del botón de respuesta positiva
+        let currentFontSize = parseFloat(
+          window.getComputedStyle(yesButton).fontSize
+        );
+        yesButton.style.fontSize = currentFontSize + 2 + "px";
+        yesButton.style.padding =
+          parseFloat(window.getComputedStyle(yesButton).paddingTop) +
+          5 +
+          "px " +
+          (parseFloat(window.getComputedStyle(yesButton).paddingRight) + 10) +
+          "px";
+
+        // Cambiar el texto del botón de respuesta positiva
+        yesButton.innerHTML = phrases[phraseIndex];
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+      }
+    </script>
+  </body>
+</html>
